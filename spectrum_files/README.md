@@ -1,2 +1,2 @@
-# VPL Spectral Database
-Backend Python scripts for generating the VPL Spectral Database 
+# VPLSpectralDatabase/spectrum_files/
+Directory to hold underlying spectrum files
