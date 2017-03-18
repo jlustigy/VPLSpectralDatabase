@@ -1,2 +1,3 @@
-# VPL Spectral Database
-Backend Python scripts for generating the VPL Spectral Database 
+# VPLSpectralDatabase/csv/
+
+Directory to hold csv outputs
