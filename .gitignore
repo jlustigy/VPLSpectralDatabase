@@ -1,0 +1,11 @@
+*.DS_Store
+*.twbx
+*.pyc
+*.csv
+*.ipynb_checkpoints
+original_files/*
+!original_files/README.md
+csv/*
+!csv/README.md
+spectrum_files/*
+!spectrum_files/README.md
