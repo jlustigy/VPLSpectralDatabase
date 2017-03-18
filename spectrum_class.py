@@ -271,7 +271,7 @@ def test_write_meta():
     """
     spectra = test_init()
 
-    write_spectra_meta_csv(spectra, savename="test_meta.csv")
+    write_spectra_meta_csv(spectra, savename="csv/test_meta.csv")
 
     return
 
@@ -280,7 +280,7 @@ def test_write_spectra():
     """
     spectra = test_init()
 
-    write_spectra_csv(spectra, savename="test_spectra.csv")
+    write_spectra_csv(spectra, savename="csv/test_spectra.csv")
 
     return
 
@@ -360,7 +360,7 @@ def test_molecules():
     ]
 
     # Create test csv file
-    write_molecular_csv(molecules, savename="test_mols.csv")
+    write_molecular_csv(molecules, savename="csv/test_mols.csv")
 
 if __name__ == "__main__":
     #test_init()
