@@ -135,6 +135,7 @@ def write_spectra_meta_csv(spectra, savename="meta.csv"):
 
     # Specify columns for the meta data file
     cols = [
+        "Which",
         "Observation",
         "Star",
         "Planet",
@@ -148,9 +149,11 @@ def write_spectra_meta_csv(spectra, savename="meta.csv"):
     meta = []
 
     # Loop over list of Spectrum objects
+    i = 1
     for s in spectra:
         # Append metadata to list
         meta.append([
+            i,
             s.observation,
             s.star,
             s.planet,
@@ -159,6 +162,7 @@ def write_spectra_meta_csv(spectra, savename="meta.csv"):
             s.reference,
             s.path_to_file
         ])
+        i += 1
 
     # Convert to np array...
     metadata = np.array(meta)
@@ -202,11 +206,15 @@ def write_spectra_csv(spectra, savename="test.csv", lammin=0.1, lammax=20.0,
     ftrn = []
     absrad = []
     tag = []
+    which = []
 
+    i = 1
     for s in spectra:
         mask = (s.data.wavelength >= lammin) & (s.data.wavelength <= lammax)
         tmp = np.chararray(np.sum(mask), itemsize=len(s.tag))
+        tmp2 = np.zeros(np.sum(mask), dtype=int)
         tmp[:] = s.tag
+        tmp2[:] = int(i)
         tag = np.hstack([tag,tmp])
         wl = np.hstack([wl, s.data.wavelength[mask]])
         wn = np.hstack([wn, s.data.wavenumber[mask]])
@@ -215,8 +223,12 @@ def write_spectra_csv(spectra, savename="test.csv", lammin=0.1, lammax=20.0,
         galb = np.hstack([galb, s.data.geo_albedo[mask]])
         ftrn = np.hstack([ftrn, s.data.flux_transmission[mask]])
         absrad = np.hstack([absrad, s.data.absorbing_radius[mask]])
+        which = np.hstack([which, tmp2])
+        i += 1
 
-    data = np.array([tag, wl, wn, toaf, starf, galb, ftrn, absrad]).T
+    which = np.array(which, dtype=int)
+
+    data = np.array([tag, wl, wn, toaf, starf, galb, ftrn, absrad, which]).T
 
     cols = [
         "File Name",
@@ -226,7 +238,8 @@ def write_spectra_csv(spectra, savename="test.csv", lammin=0.1, lammax=20.0,
         "Stellar Flux",
         "Geometric Albedo",
         "Flux Transmission",
-        "Absorbing Radius"
+        "Absorbing Radius",
+        "Which"
     ]
 
     df = pd.DataFrame(data, columns=cols)
