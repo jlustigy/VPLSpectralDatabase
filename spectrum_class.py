@@ -253,7 +253,7 @@ def write_spectra_csv(spectra, savename="test.csv", lammin=0.1, lammax=20.0,
 def test_init():
 
     # Relative path to spectra files
-    path = "spectra_files/"
+    path = "spectrum_files/"
 
     # Construct Spectrum object
 
@@ -364,6 +364,49 @@ def write_molecular_csv(molecules, savename="test2.csv"):
 
     return
 
+def write_molecular_csv_hr(molecules, lammin=0.1, lammax=20.0, dwno=1.0, savename="test2.csv"):
+    """
+    Write list of Molecule objects to csv file
+
+    Parameters
+    ----------
+    molecules : list of molecules
+        List of Molecule objects
+    savename : str
+        Name of the csv file to be saved
+    """
+
+    # Generate wavelength grid for molecules
+    wno = np.arange(1e4/lammax, 1e4/lammin+dwno, dwno)
+    lam = 1e4/wno[::-1]
+
+    #
+    vals = np.chararray(len(lam), itemsize=10)
+    vals[:] = ""
+
+    for m in molecules:
+
+        for i in range(len(m.bandcenters)):
+            # get wavelength grid index closest to bandcenter value
+            index = np.argmin(np.fabs(lam - m.bandcenters[i]))
+            # Set molecule name
+            vals[index] = m.name
+
+    data = np.array([lam, vals]).T
+
+    cols = [
+        "Wavelength",
+        "Molecule",
+    ]
+
+    df = pd.DataFrame(data, columns=cols)
+
+    df.to_csv(savename)
+
+    print "Saved %s" %savename
+
+    return
+
 def test_molecules():
 
     # Create list of molecules and their features
@@ -375,8 +418,11 @@ def test_molecules():
     # Create test csv file
     write_molecular_csv(molecules, savename="csv/test_mols.csv")
 
+    # Create test csv file
+    write_molecular_csv_hr(molecules, lammin=0.2, lammax=20.0, dwno=1.0, savename="csv/test_mols_hr.csv")
+
 if __name__ == "__main__":
-    #test_init()
-    #test_molecules()
+    test_init()
+    test_molecules()
     test_write_spectra()
     test_write_meta()
