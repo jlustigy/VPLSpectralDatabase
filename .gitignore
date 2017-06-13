@@ -1,5 +1,6 @@
 *.DS_Store
 *.twbx
+*.twbr
 *.pyc
 *.csv
 *.ipynb_checkpoints

@@ -9,7 +9,7 @@ import readsmart as rs
 import pandas as pd
 from numba import jit
 
-from spectrum_class import Spectrum, write_spectra_csv, write_spectra_meta_csv
+from spectrum_class import Spectrum, write_spectra_csv, write_spectra_meta_csv, copy_raw_spectra
 
 """
 Set the relative path to spectra from this script
@@ -24,6 +24,15 @@ spectra = [
     #######################
     # DIRECT SPECTROSCOPY #
     #######################
+
+    Spectrum(observation="Direct",
+             star="Sun",
+             planet="Mars",
+             description="Present-day Mars",
+             meta="Generated using SMART",
+             reference="Tyler Robinson",
+             path_to_file=os.path.join(path, "mars_flx_refl_data.txt")
+              ),
 
     Spectrum(observation="Direct",
              star="Sun",
@@ -444,7 +453,7 @@ spectra = [
 	         star = "GJ 1214",
 	         planet = "GJ 1214b",
              description = "100X Solar Metallicity",
-	         meta = "",
+	         meta = " ",
              reference = "Charnay et al. 2015",
              path_to_file=os.path.join(path,"gj1214b_100Xsolar_hitran2012_50_100000cm_toa.rad")
              ),
@@ -454,7 +463,7 @@ spectra = [
 	         star = "GJ 1214",
 	         planet = "GJ 1214b",
              description = "Solar Metallicity",
-	         meta = "",
+	         meta = " ",
              reference = "Charnay et al. 2015",
              path_to_file=os.path.join(path,"gj1214b_solar_hitran2012_50_100000cm_toa.rad")
              ),
@@ -958,7 +967,7 @@ spectra = [
                star="GJ 876 (M4V)",
                planet="FP Earth",
                description="Photolysis of CO2",
-               meta="",
+               meta=" ",
                reference="Harman et al. 2015; Schwieterman et al. 2016",
                path_to_file=os.path.join(path, "GJ_876_highCO_hitran2012_50_100000cm.tran")
               ),
@@ -968,7 +977,7 @@ spectra = [
                star="AD Leo (M3.5V)",
                planet="Earth",
                description="Segura",
-               meta="",
+               meta=" ",
                reference="Schwieterman 2016; Segura 2005",
                path_to_file=os.path.join(path, "smartin_adleo_hyak_hitran2012_50_100000cm.tran")
               ),
@@ -1077,8 +1086,9 @@ spectra = [
 """
 Write spectra to csv
 """
-write_spectra_csv(spectra, savename="csv/spectra_small.csv", lammin=0.3, lammax=1.0)
-write_spectra_csv(spectra, savename="csv/spectra_large.csv", lammin=0.2, lammax=20.0)
+#write_spectra_csv(spectra, savename="csv/spectra_small.csv", lammin=0.3, lammax=1.0)
+write_spectra_csv(spectra, savename="csv/spectra_small5.csv", lammin=0.2, lammax=20.0, nth=5)
+write_spectra_csv(spectra, savename="csv/spectra_large.csv", lammin=0.2, lammax=20.0, nth=1)
 
 """
 Write metadata to csv
