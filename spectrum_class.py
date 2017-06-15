@@ -65,7 +65,7 @@ class Spectrum(object):
 class SpectralData(object):
     def __init__(self, wavelength=None, wavenumber=None, toa_flux=None,
                  star_flux=None, geo_albedo=None, flux_transmission=None,
-                 absorbing_radius=None):
+                 absorbing_radius=None, tdepth=None):
         self.wavelength=wavelength
         self.wavenumber=wavenumber
         self.toa_flux=toa_flux
@@ -73,6 +73,7 @@ class SpectralData(object):
         self.geo_albedo=geo_albedo
         self.flux_transmission=flux_transmission
         self.absorbing_radius=absorbing_radius
+        self.tdepth=tdepth
 
     @classmethod
     def from_file(cls, path):
@@ -84,13 +85,13 @@ class SpectralData(object):
             geo_albedo = toa_flux / star_flux
             tmp = np.chararray(len(wavelength), itemsize=1)
             tmp[:] = ""
-            flux_transmission, absorbing_radius = tmp, tmp
+            flux_transmission, absorbing_radius, tdepth = tmp, tmp, tmp
         elif path.endswith(".tran"):
             # Read tran
             wavelength, flux_transmission, absorbing_radius = rs.tran(path)
             tmp = np.chararray(len(wavelength), itemsize=1)
             tmp[:] = ""
-            wavenumber, toa_flux, star_flux, geo_albedo = tmp, tmp, tmp, tmp
+            wavenumber, toa_flux, star_flux, geo_albedo, tdepth = tmp, tmp, tmp, tmp, tmp
         elif path.endswith(".trnst"):
             # Read trnst
             wavelength, wavenumber, absorbing_radius, tdepth = rs.trnst(path)
@@ -109,7 +110,31 @@ class SpectralData(object):
             # Fill transit arrays with empty strings
             tmp = np.chararray(len(wavelength), itemsize=1)
             tmp[:] = ""
-            flux_transmission, absorbing_radius = tmp, tmp
+            flux_transmission, absorbing_radius, tdepth = tmp, tmp, tmp
+        elif path.endswith(".flx"):
+            # Read dat file from Will/Shawn's version
+            dat = np.genfromtxt(path, skip_header=8)
+            # Parse
+            wavelength = dat[:,0]
+            wavenumber = dat[:,1]
+            star_flux  = dat[:,2]
+            toa_flux   = dat[:,3]
+            geo_albedo = dat[:,4]
+            # Fill transit arrays with empty strings
+            tmp = np.chararray(len(wavelength), itemsize=1)
+            tmp[:] = ""
+            flux_transmission, absorbing_radius, tdepth = tmp, tmp, tmp
+        elif path.endswith(".trn"):
+            # Read dat file from Will/Shawn's version
+            dat = np.genfromtxt(path, skip_header=8)
+            # Parse
+            wavelength = dat[:,0]
+            absorbing_radius = dat[:,1]
+            tdepth  = dat[:,2]
+            # Fill transit arrays with empty strings
+            tmp = np.chararray(len(wavelength), itemsize=1)
+            tmp[:] = ""
+            toa_flux, star_flux, geo_albedo, flux_transmission, wavenumber = tmp, tmp, tmp, tmp, tmp
         else:
             print "%s is an invalid path." %path
 
@@ -117,7 +142,7 @@ class SpectralData(object):
         return cls(wavelength=wavelength, wavenumber=wavenumber, toa_flux=toa_flux,
                    star_flux=star_flux, geo_albedo=geo_albedo,
                    flux_transmission=flux_transmission,
-                   absorbing_radius=absorbing_radius)
+                   absorbing_radius=absorbing_radius, tdepth=tdepth)
 
 def write_spectra_meta_csv(spectra, savename="meta.csv"):
     """
@@ -179,8 +204,18 @@ def write_spectra_meta_csv(spectra, savename="meta.csv"):
 
 
 
+def set_nth(N, final_length=10000.):
+    """
+    """
+    n = int(round(N / final_length))
+    if n < 1:
+        nth = 1
+    else:
+        nth = n
+    return nth
+
 def write_spectra_csv(spectra, savename="test.csv", lammin=0.1, lammax=20.0,
-                      degrade=False, Res=1000, nth=1):
+                      degrade=False, Res=1000, nth=1, dynamic_nth=False):
     """
     Write list of Spectrum objects to csv file
 
@@ -207,16 +242,27 @@ def write_spectra_csv(spectra, savename="test.csv", lammin=0.1, lammax=20.0,
     galb = []
     ftrn = []
     absrad = []
+    tdepth = []
     tag = []
     which = []
 
     i = 1
     for s in spectra:
+        # Select wavelength range
         mask = (s.data.wavelength >= lammin) & (s.data.wavelength <= lammax)
-        tmp = np.chararray(np.sum(mask), itemsize=len(s.tag))
-        tmp2 = np.zeros(np.sum(mask), dtype=int)
+
+        # Number of wavelength points
+        Nlam = np.sum(mask)
+
+        # Create meaningless
+        tmp = np.chararray(Nlam, itemsize=len(s.tag))
+        tmp2 = np.zeros(Nlam, dtype=int)
         tmp[:] = s.tag
         tmp2[:] = int(i)
+
+        if dynamic_nth:
+            nth = set_nth(Nlam)
+
         tag = np.hstack([tag,tmp[0::nth]])
         wl = np.hstack([wl, s.data.wavelength[mask][0::nth]])
         wn = np.hstack([wn, s.data.wavenumber[mask][0::nth]])
@@ -225,12 +271,13 @@ def write_spectra_csv(spectra, savename="test.csv", lammin=0.1, lammax=20.0,
         galb = np.hstack([galb, s.data.geo_albedo[mask][0::nth]])
         ftrn = np.hstack([ftrn, s.data.flux_transmission[mask][0::nth]])
         absrad = np.hstack([absrad, s.data.absorbing_radius[mask][0::nth]])
+        tdepth = np.hstack([tdepth, s.data.tdepth[mask][0::nth]])
         which = np.hstack([which, tmp2[0::nth]])
         i += 1
 
     which = np.array(which, dtype=int)
 
-    data = np.array([tag, wl, wn, toaf, starf, galb, ftrn, absrad, which]).T
+    data = np.array([tag, wl, wn, toaf, starf, galb, ftrn, absrad, tdepth, which]).T
 
     cols = [
         "File Name",
@@ -241,6 +288,7 @@ def write_spectra_csv(spectra, savename="test.csv", lammin=0.1, lammax=20.0,
         "Geometric Albedo",
         "Flux Transmission",
         "Absorbing Radius",
+        "Transit Depth",
         "Which"
     ]
 
@@ -265,7 +313,7 @@ def test_init():
                     description="FP Earth",
                     meta="1 bar; CO2/O2/CO",
                     reference="Meadows et al., 2017; Gao et al., 2015",
-                    path_to_file=os.path.join(path, "smart_gao_1bar_update_xsec.trnst")
+                    path_to_file=os.path.join(path, "smart_gao_1bar_update_xsec.trn")
               )
 
     test2 = Spectrum(observation="Direct",
@@ -274,7 +322,7 @@ def test_init():
                     description="No clouds; 100% Ocean",
                     meta="1 PAL O2",
                     reference="Segura et al. 2005",
-                    path_to_file=os.path.join(path, "smart_Mstar_ADLeo_1PAL_clr_ocean_50_30000cm_r60only_toa_data.txt")
+                    path_to_file=os.path.join(path, "smart_Mstar_ADLeo_1PAL_clr_ocean_50_30000cm_r60only_toa.flx")
               )
 
     ltest = [test1, test2]
@@ -417,6 +465,24 @@ def convert_txt_to_flx(fn):
 
     # use os to call final_command on the command line
     os.system(final_command)
+
+    return
+
+def run_flx_conversion(spec_dir="spectrum_files"):
+    """
+    This (hopefully) single-use function converts all existing *_data.txt files
+    to *.flx
+    """
+
+    spec_list = os.listdir(spec_dir)
+    for spec in spec_list:
+        fn = os.path.join(spec_dir, spec)
+        if fn.endswith("_data.txt"):
+            convert_txt_to_flx(fn)
+        elif fn.endswith("_toa.rad"):
+            convert_rad_to_flx(fn)
+        else:
+            pass
 
     return
 
