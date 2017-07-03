@@ -1088,10 +1088,13 @@ Write spectra to csv
 """
 #write_spectra_csv(spectra, savename="csv/spectra_small.csv", lammin=0.3, lammax=1.0)
 
-write_spectra_csv(spectra, savename="csv/spectra_small_061417.csv", lammin=0.2, lammax=25.0, dynamic_nth=True)
-write_spectra_csv(spectra, savename="csv/spectra_large_061417.csv", lammin=0.2, lammax=25.0, nth=1)
+write_spectra_csv(spectra,
+                  savename="csv/spectra_small_070117.csv",
+                  lammin=0.2, lammax=25.0,
+                  dynamic_nth=True, fn=5000)
+#write_spectra_csv(spectra, savename="csv/spectra_large_061417.csv", lammin=0.2, lammax=25.0, nth=1)
 
 """
 Write metadata to csv
 """
-write_spectra_meta_csv(spectra, savename="csv/spectra_meta_061417.csv")
+write_spectra_meta_csv(spectra, savename="csv/spectra_meta_070117.csv")

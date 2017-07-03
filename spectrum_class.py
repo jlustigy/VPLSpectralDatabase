@@ -215,7 +215,7 @@ def set_nth(N, final_length=10000.):
     return nth
 
 def write_spectra_csv(spectra, savename="test.csv", lammin=0.1, lammax=20.0,
-                      degrade=False, Res=1000, nth=1, dynamic_nth=False):
+                      degrade=False, Res=1000, nth=1, dynamic_nth=False, fn=10000):
     """
     Write list of Spectrum objects to csv file
 
@@ -261,7 +261,7 @@ def write_spectra_csv(spectra, savename="test.csv", lammin=0.1, lammax=20.0,
         tmp2[:] = int(i)
 
         if dynamic_nth:
-            nth = set_nth(Nlam)
+            nth = set_nth(Nlam, final_length=fn)
 
         tag = np.hstack([tag,tmp[0::nth]])
         wl = np.hstack([wl, s.data.wavelength[mask][0::nth]])
