@@ -714,8 +714,8 @@ spectra = [
                planet="b",
                description="High O2 Dry",
                meta="10 bar",
-               reference="Meadows et al. 2017; Schwieterman 2016; Luger & Barnes 2015",
-               path_to_file=os.path.join(path,"profile_o2lb_10bar_dry.pt_filtered_hitran2012_50_100000cm_toa.flx")
+               reference="Meadows et al. 2018; Schwieterman 2016; Luger & Barnes 2015",
+               path_to_file=os.path.join(path,"10bar_O2_dry.pt_filtered_hitran2012_50_100000cm_toa.flx")
               ),
 
     #"Direct_Proxima Centauri_high O2_10bar_wet" : "profile_o2lb_10bar_h2o.pt_filtered_hitran2012_50_100000cm_toa.flx"
@@ -724,8 +724,8 @@ spectra = [
                planet="b",
                description="High O2 Wet",
                meta="10 bar",
-               reference="Meadows et al. 2017; Schwieterman 2016; Luger & Barnes 2015",
-               path_to_file=os.path.join(path,"profile_o2lb_10bar_h2o.pt_filtered_hitran2012_50_100000cm_toa.flx")
+               reference="Meadows et al. 2018; Schwieterman 2016; Luger & Barnes 2015",
+               path_to_file=os.path.join(path,"10bar_O2_wet.pt_filtered_hitran2012_50_100000cm_toa.flx")
               ),
 
     #"Direct_Proxima Centauri_O2 CO2_10bar" : "profile_O2_CO2_10bar_prox_hitran2012_50_100000cm_toa.flx",
@@ -734,8 +734,8 @@ spectra = [
                planet="b",
                description="Evolved O2, CO2",
                meta="10 bar",
-               reference="Meadows et al. 2017",
-               path_to_file=os.path.join(path,"profile_O2_CO2_10bar_prox_hitran2012_50_100000cm_toa.flx")
+               reference="Meadows et al. 2018",
+               path_to_file=os.path.join(path,"10bar_O2_CO2_final.pt_filtered_hitran2012_50_100000cm_toa.flx")
               ),
 
     #"Direct_Proxima Centauri_O2 CO2_90bar" : "profile_O2_CO2_90bar_prox_hitran2012_50_100000cm_toa.flx",
@@ -744,8 +744,8 @@ spectra = [
                planet="b",
                description="Evolved O2, CO2",
                meta="90 bar",
-               reference="Meadows et al. 2017",
-               path_to_file=os.path.join(path,"profile_O2_CO2_90bar_prox_hitran2012_50_100000cm_toa.flx")
+               reference="Meadows et al. 2018",
+               path_to_file=os.path.join(path,"90bar_O2_CO2_profile.pt_filtered_hitran2012_50_100000cm_toa.flx")
               ),
 
     #"Direct_Proxima Centauri_Venus_10bar_clouds" : "fig17_smart_spectra_pandora10bar_cloudy_500_100000cm-1_toa.flx",
@@ -754,8 +754,8 @@ spectra = [
                planet="b",
                description="Venus-like",
                meta="10 bar; Cloudy",
-               reference="Meadows et al. 2017",
-               path_to_file=os.path.join(path,"fig17_smart_spectra_pandora10bar_cloudy_500_100000cm-1_toa.flx")
+               reference="Meadows et al. 2018",
+               path_to_file=os.path.join(path,"PCb_Venus_10bar_toa.flx")
               ),
 
     #"Direct_Proxima Centauri_Venus_90bar_clouds" : "fig17_smart_spectra_pandora90bar_clouds_500_100000cm-1_toa.flx",
@@ -764,8 +764,8 @@ spectra = [
                planet="b",
                description="Venus-like",
                meta="90 bar; Cloudy",
-               reference="Meadows et al. 2017",
-               path_to_file=os.path.join(path, "fig17_smart_spectra_pandora90bar_clouds_500_100000cm-1_toa.flx")
+               reference="Meadows et al. 2018",
+               path_to_file=os.path.join(path, "PCb_Venus_90bar_toa.flx")
               ),
 
     #"Direct_Proxima Centauri_Gao_1bar" : "smart_gao_1bar_update_xsec_toa.flx",
@@ -774,58 +774,119 @@ spectra = [
                planet="b",
                description="FP Earth",
                meta="1 bar; CO2/O2/CO",
-               reference="Meadows et al. 2017; Gao et al. 2015",
-               path_to_file=os.path.join(path, "smart_gao_1bar_update_xsec_toa.flx")
+               reference="Meadows et al. 2018; Gao et al. 2015",
+               path_to_file=os.path.join(path, "smart_gao_1bar_FINAL_toa.flx")
               ),
 
-    #"Direct_Proxima Centauri_Archean_No haze" : "fig21_HAZE_msun21_0.0Ga_1.00e-02ch4_rmix_5.0E-2__30.66fscale_toa.flx",
     Spectrum(observation="Direct",
                star="Proxima Centauri",
                planet="b",
                description="Archean",
-               meta="No Haze",
-               reference="Meadows et al. 2017; Arney et al. 2016",
-               path_to_file=os.path.join(path, "fig21_HAZE_msun21_0.0Ga_1.00e-02ch4_rmix_5.0E-2__30.66fscale_toa.flx")
+               meta="No Haze; No Clouds",
+               reference="Meadows et al. 2018; Arney et al. 2016",
+               path_to_file=os.path.join(path, "HAZE_1.00e-02ch4_clear_new_toa.flx")
               ),
 
-    #"Direct_Proxima Centauri_Archean_Haze" : "fig21_HAZE_msun21_0.0Ga_3.00e-02ch4_rmix_5.0E-2__30.66fscale_toa.flx",
     Spectrum(observation="Direct",
                star="Proxima Centauri",
                planet="b",
                description="Archean",
-               meta="Haze",
-               reference="Meadows et al. 2017; Arney et al. 2016",
-               path_to_file=os.path.join(path, "fig21_HAZE_msun21_0.0Ga_3.00e-02ch4_rmix_5.0E-2__30.66fscale_toa.flx")
+               meta="Haze; No Clouds",
+               reference="Meadows et al. 2018; Arney et al. 2016",
+               path_to_file=os.path.join(path, "HAZE_1.50e-02ch4_clear_new_toa.flx")
+              ),
+
+    Spectrum(observation="Direct",
+               star="Proxima Centauri",
+               planet="b",
+               description="Archean",
+               meta="No Haze; Cirrus Cloud",
+               reference="Meadows et al. 2018; Arney et al. 2016",
+               path_to_file=os.path.join(path, "HAZE_1.00e-02ch4_cirrus_new_toa.flx")
+              ),
+
+    Spectrum(observation="Direct",
+               star="Proxima Centauri",
+               planet="b",
+               description="Archean",
+               meta="Haze; Cirrus Cloud",
+               reference="Meadows et al. 2018; Arney et al. 2016",
+               path_to_file=os.path.join(path, "HAZE_1.50e-02ch4_cirrus_new_toa.flx")
+              ),
+
+    Spectrum(observation="Direct",
+               star="Proxima Centauri",
+               planet="b",
+               description="Archean",
+               meta="No Haze; Stratocumulus Cloud",
+               reference="Meadows et al. 2018; Arney et al. 2016",
+               path_to_file=os.path.join(path, "HAZE_1.00e-02ch4_stcum_new_toa.flx")
+              ),
+
+    Spectrum(observation="Direct",
+               star="Proxima Centauri",
+               planet="b",
+               description="Archean",
+               meta="Haze; Stratocumulus Cloud",
+               reference="Meadows et al. 2018; Arney et al. 2016",
+               path_to_file=os.path.join(path, "HAZE_1.50e-02ch4_stcum_new_toa.flx")
+              ),
+
+    Spectrum(observation="Direct",
+               star="Proxima Centauri",
+               planet="b",
+               description="Archean",
+               meta="No Haze; 50% No Cloud; 25% Cirrus; 25% Stratocumulus",
+               reference="Meadows et al. 2018; Arney et al. 2016",
+               path_to_file=os.path.join(path, "HAZE_1.00e-02ch4_combined_new_toa.flx")
+              ),
+
+    Spectrum(observation="Direct",
+               star="Proxima Centauri",
+               planet="b",
+               description="Archean",
+               meta="Haze; 50% No Cloud; 25% Cirrus; 25% Stratocumulus",
+               reference="Meadows et al. 2018; Arney et al. 2016",
+               path_to_file=os.path.join(path, "HAZE_1.50e-02ch4_combined_new_toa.flx")
               ),
 
     #"Direct_Proxima Centauri_Earth_Cirrus" : "profile_earth_prox.pt_cirrus_hitran2012_50_100000cm_toa.flx",
     Spectrum(observation="Direct",
                star="Proxima Centauri",
                planet="b",
-               description="Earth",
+               description="Earth-like",
                meta="Cirrus Cloud",
-               reference="Meadows et al. 2017",
-               path_to_file=os.path.join(path, "profile_earth_prox.pt_cirrus_hitran2012_50_100000cm_toa.flx")
+               reference="Meadows et al. 2018",
+               path_to_file=os.path.join(path, "profile_Earth_proxb_.pt_cirrus_hitran2012_o4_noh2co_187Kstrat_toa.flx")
               ),
 
     #"Direct_Proxima Centauri_Earth_Clear" : "profile_earth_prox.pt_filtered_hitran2012_50_100000cm_toa.flx",
     Spectrum(observation="Direct",
                star="Proxima Centauri",
                planet="b",
-               description="Earth",
+               description="Earth-like",
                meta="Clear",
-               reference="Meadows et al. 2017",
-               path_to_file=os.path.join(path, "profile_earth_prox.pt_filtered_hitran2012_50_100000cm_toa.flx")
+               reference="Meadows et al. 2018",
+               path_to_file=os.path.join(path, "profile_Earth_proxb_.pt_hitran2012_o4_noh2co_187Kstrat_toa.flx")
               ),
 
     #"Direct_Proxima Centauri_Earth_Stratocumulus" : "profile_earth_prox.pt_stratocum_hitran2012_50_100000cm_toa.flx",
     Spectrum(observation="Direct",
                star="Proxima Centauri",
                planet="b",
-               description="Earth",
+               description="Earth-like",
                meta="Stratocumulus Cloud",
-               reference="Meadows et al. 2017",
-               path_to_file=os.path.join(path, "profile_earth_prox.pt_stratocum_hitran2012_50_100000cm_toa.flx")
+               reference="Meadows et al. 2018",
+               path_to_file=os.path.join(path, "profile_Earth_proxb_.pt_stratocum_hitran2012_o4_noh2co_187Kstrat_toa.flx")
+              ),
+
+    Spectrum(observation="Direct",
+               star="Proxima Centauri",
+               planet="b",
+               description="Earth-like",
+               meta="50% Clear; 25% Cirrus; 25% Stratocumulus",
+               reference="Meadows et al. 2018",
+               path_to_file=os.path.join(path, "profile_Earth_proxb_combined_toa.flx")
               ),
 
     #############################
@@ -988,8 +1049,8 @@ spectra = [
                planet="b",
                description="High O2 Dry",
                meta="10 bar",
-               reference="Meadows et al. 2017; Schwieterman 2016; Luger & Barnes 2015",
-               path_to_file=os.path.join(path, "profile_o2lb_10bar_dry.pt_filtered_transit.trn")
+               reference="Meadows et al. 2018; Schwieterman 2016; Luger & Barnes 2015",
+               path_to_file=os.path.join(path, "10bar_O2_dry.pt_filtered_hitran2012_50_100000cm.trn")
               ),
 
     #"Transmission_Proxima Centauri_O2_10bar_wet" : "profile_o2lb_10bar_h2o.pt_filtered_transit.trn",
@@ -998,8 +1059,8 @@ spectra = [
                planet="b",
                description="High O2 Wet",
                meta="10 bar",
-               reference="Meadows et al. 2017; Schwieterman 2016; Luger & Barnes 2015",
-               path_to_file=os.path.join(path, "profile_o2lb_10bar_h2o.pt_filtered_transit.trn")
+               reference="Meadows et al. 2018; Schwieterman 2016; Luger & Barnes 2015",
+               path_to_file=os.path.join(path, "10bar_O2_wet.pt_filtered_hitran2012_50_100000cm.trn")
               ),
 
     #"Transmission_Proxima Centauri_O2 CO2_10bar" : "profile_O2_CO2_10bar_prox_transit_hitran2012_50_100000cm.trn",
@@ -1008,8 +1069,8 @@ spectra = [
                planet="b",
                description="Evolved O2, CO2",
                meta="10 bar",
-               reference="Meadows et al. 2017",
-               path_to_file=os.path.join(path, "profile_O2_CO2_10bar_prox_transit_hitran2012_50_100000cm.trn")
+               reference="Meadows et al. 2018",
+               path_to_file=os.path.join(path, "10bar_O2_CO2_final.pt_filtered_hitran2012_50_100000cm.trn")
               ),
 
     #"Transmission_Proxima Centauri_O2 CO2_90bar" : "profile_O2_CO2_90bar_prox_transit_hitran2012_50_100000cm.trn",
@@ -1018,8 +1079,8 @@ spectra = [
                planet="b",
                description="Evolved O2, CO2",
                meta="90 bar",
-               reference="Meadows et al. 2017",
-               path_to_file=os.path.join(path, "profile_O2_CO2_90bar_prox_transit_hitran2012_50_100000cm.trn")
+               reference="Meadows et al. 2018",
+               path_to_file=os.path.join(path, "90bar_O2_CO2_profile.pt_filtered_hitran2012_50_100000cm.trn")
               ),
 
     #"Transmission_Proxima Centauri_Venus_10bar_clouds" : "fig24_tran_smart_spectra_pandora10bar_cloudy_500_100000cm-1.trn",
@@ -1028,8 +1089,8 @@ spectra = [
                planet="b",
                description="Venus-like",
                meta="10 bar; Cloudy",
-               reference="Meadows et al. 2017",
-               path_to_file=os.path.join(path, "fig24_tran_smart_spectra_pandora10bar_cloudy_500_100000cm-1.trn")
+               reference="Meadows et al. 2018",
+               path_to_file=os.path.join(path, "PCb_Venus_10bar.trn")
               ),
 
     #"Transmission_Proxima Centauri_Venus_90bar_clouds" : "fig24_tran_smart_spectra_pandora90bar_clouds_500_100000cm-1.trn",
@@ -1038,8 +1099,8 @@ spectra = [
                planet="b",
                description="Venus-like",
                meta="90 bar; Cloudy",
-               reference="Meadows et al. 2017",
-               path_to_file=os.path.join(path, "fig24_tran_smart_spectra_pandora90bar_clouds_500_100000cm-1.trn")
+               reference="Meadows et al. 2018",
+               path_to_file=os.path.join(path, "PCb_Venus_90bar.trn")
               ),
 
     #"Transmission_Proxima Centauri_Gao_1bar" : "Gao2015_case3.pt_filtered_transit.trn",
@@ -1048,53 +1109,95 @@ spectra = [
                planet="b",
                description="FP Earth",
                meta="1 bar; CO2/O2/CO",
-               reference="Meadows et al. 2017; Gao et al. 2015",
-               path_to_file=os.path.join(path, "smart_gao_1bar_update_xsec.trn")
+               reference="Meadows et al. 2018; Gao et al. 2015",
+               path_to_file=os.path.join(path, "smart_gao_1bar_FINAL.trn")
               ),
 
-    #"Transmission_Proxima Centauri_Archean_No haze" : "fig28_HAZE_msun21_0.0Ga_1.00e-02ch4_rmix_5.0E-2__30.66fscaleTRAN.trn",
     Spectrum(observation="Transmission",
                star="Proxima Centauri",
                planet="b",
                description="Archean",
-               meta="No Haze",
-               reference="Meadows et al. 2017; Arney et al. 2016",
-               path_to_file=os.path.join(path, "fig28_HAZE_msun21_0.0Ga_1.00e-02ch4_rmix_5.0E-2__30.66fscaleTRAN.trn")
+               meta="No Haze; No Clouds",
+               reference="Meadows et al. 2018; Arney et al. 2016",
+               path_to_file=os.path.join(path, "HAZE_1.00e-02ch4_clear_new.trn")
               ),
 
-    #"Transmission_Proxima Centauri_Archean_Haze" : "fig28_HAZE_msun21_0.0Ga_3.00e-02ch4_rmix_5.0E-2__30.66fscaleTRAN.trn",
     Spectrum(observation="Transmission",
                star="Proxima Centauri",
                planet="b",
                description="Archean",
-               meta="Haze",
-               reference="Meadows et al. 2017; Arney et al. 2016",
-               path_to_file=os.path.join(path, "fig28_HAZE_msun21_0.0Ga_3.00e-02ch4_rmix_5.0E-2__30.66fscaleTRAN.trn")
+               meta="Haze; No Clouds",
+               reference="Meadows et al. 2018; Arney et al. 2016",
+               path_to_file=os.path.join(path, "HAZE_1.50e-02ch4_clear_new.trn")
               ),
 
-    #"Transmission_Proxima Centauri_Earth_Clear" : "profile_earth_prox.pt_filtered_transit_hitran2012_50_100000cm.trn",
     Spectrum(observation="Transmission",
                star="Proxima Centauri",
                planet="b",
-               description="Earth",
+               description="Archean",
+               meta="No Haze; Cirrus Cloud",
+               reference="Meadows et al. 2018; Arney et al. 2016",
+               path_to_file=os.path.join(path, "HAZE_1.00e-02ch4_cirrus_new.trn")
+              ),
+
+    Spectrum(observation="Transmission",
+               star="Proxima Centauri",
+               planet="b",
+               description="Archean",
+               meta="Haze; Cirrus Cloud",
+               reference="Meadows et al. 2018; Arney et al. 2016",
+               path_to_file=os.path.join(path, "HAZE_1.50e-02ch4_cirrus_new.trn")
+              ),
+
+    Spectrum(observation="Transmission",
+               star="Proxima Centauri",
+               planet="b",
+               description="Archean",
+               meta="No Haze; Stratocumulus Cloud",
+               reference="Meadows et al. 2018; Arney et al. 2016",
+               path_to_file=os.path.join(path, "HAZE_1.00e-02ch4_stcum_new.trn")
+              ),
+
+    Spectrum(observation="Transmission",
+               star="Proxima Centauri",
+               planet="b",
+               description="Archean",
+               meta="Haze; Stratocumulus Cloud",
+               reference="Meadows et al. 2018; Arney et al. 2016",
+               path_to_file=os.path.join(path, "HAZE_1.50e-02ch4_stcum_new.trn")
+              ),
+
+    Spectrum(observation="Transmission",
+               star="Proxima Centauri",
+               planet="b",
+               description="Earth-like",
                meta="Clear",
-               reference="Meadows et al. 2017",
-               path_to_file=os.path.join(path, "profile_earth_prox.pt_filtered_transit_hitran2012_50_100000cm.trn")
+               reference="Meadows et al. 2018",
+               path_to_file=os.path.join(path, "profile_Earth_proxb_.pt_hitran2012_o4_noh2co_187Kstrat.trn")
               ),
 ]
 
-"""
-Write spectra to csv
-"""
-#write_spectra_csv(spectra, savename="csv/spectra_small.csv", lammin=0.3, lammax=1.0)
+if __name__ == "__main__":
 
-write_spectra_csv(spectra,
-                  savename="csv/spectra_small_070117.csv",
-                  lammin=0.2, lammax=25.0,
-                  dynamic_nth=True, fn=5000)
-#write_spectra_csv(spectra, savename="csv/spectra_large_061417.csv", lammin=0.2, lammax=25.0, nth=1)
+    # Get current date to avoid overwritting an old database
+    from datetime import datetime
+    now = datetime.now()
+    datetag = now.strftime("%m%d%y")
+    new_name = "csv/spectra_small_%s.csv" %datetag
+    new_meta = "csv/spectra_meta_%s.csv" %datetag
 
-"""
-Write metadata to csv
-"""
-write_spectra_meta_csv(spectra, savename="csv/spectra_meta_070117.csv")
+    """
+    Write spectra to csv
+    """
+    #write_spectra_csv(spectra, savename="csv/spectra_small.csv", lammin=0.3, lammax=1.0)
+
+    write_spectra_csv(spectra,
+                      savename=new_name,
+                      lammin=0.2, lammax=25.0,
+                      dynamic_nth=True, fn=5000)
+    #write_spectra_csv(spectra, savename="csv/spectra_large_061417.csv", lammin=0.2, lammax=25.0, nth=1)
+
+    """
+    Write metadata to csv
+    """
+    write_spectra_meta_csv(spectra, savename=new_meta)

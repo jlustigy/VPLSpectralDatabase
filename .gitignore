@@ -10,3 +10,5 @@ csv/*
 !csv/README.md
 spectrum_files/*
 !spectrum_files/README.md
+new_files/*
+!new_files/README.md

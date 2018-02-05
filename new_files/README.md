@@ -1,0 +1,1 @@
+Directory for adding new files to the database

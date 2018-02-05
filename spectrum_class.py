@@ -649,6 +649,30 @@ def run_trn_conversion(spec_dir="spectrum_files"):
 
     return
 
+def convert_new_files(new_files_dir):
+    """
+    Converts new rad and trnst files to flx and trn files.
+    """
+
+    new_list = os.listdir(new_files_dir)
+
+    rad_list = []
+    trnst_list = []
+
+    for item in new_list:
+
+        tag = os.path.join(new_files_dir, item)
+
+        if item.endswith(".rad"):
+            rad_list.append(item)
+            convert_rad_to_flx(tag)
+
+        if item.endswith(".trnst"):
+            trnst_list.append(item)
+            convert_to_trn(tag)
+
+    return
+
 ################
 # MOLECULES
 ################
