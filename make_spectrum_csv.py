@@ -895,6 +895,15 @@ spectra = [
 
     Spectrum(observation="Transmission",
 	         star = "Sun",
+             planet = "Earth",
+             description="Modern Earth orbiting the Sun",
+             meta = "Globally averaged atmospheric structure; 1 bar; No Clouds",
+             reference = "J. Lustig-Yaeger",
+             path_to_file=os.path.join(path, "earth_avg_hitran2012_300_100000cm.trn")
+             ),
+
+    Spectrum(observation="Transmission",
+	         star = "Sun",
              planet = "Archean Earth",
              description="Hazy Archean Earth orbiting the modern Sun",
              meta = "1 bar; 1% CO2; 0.2% CH4",
