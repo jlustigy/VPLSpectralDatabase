@@ -1,0 +1,19 @@
+Welcome to the VPL Spectral Explorer! Here at the VPL we specialize in spectral models of terrestrial exoplanets. The VPL Spectral Explorer allows you to visualize, compare, and download our exoplanet spectral models for your own scientific and educational purposes. To get started, select between direct imaging and transmission spectroscopy using the option box at the top left. Then use the interactive table at the bottom to select the specific type of planetary spectrum to graph. See below for more details, user tips, and data download instructions. 
+
+[VIZ]
+
+Pro Tips:
+
+Hover the mouse over a plotted spectrum to view specific information about it, such as the type of star-planet-atmosphere from which the spectrum was generated and the citable reference for the spectrum. 
+
+Click the plotted line or an item in the table to access a “Download Spectrum” link to the raw data file.
+
+Select the wavelength range you wish to plot using the sliders at the top right of the Spectral Explorer. 
+
+Click on any cell in the table to plot all spectra associated with that selection. For instance, clicking on the “Archean Sun” under “Star” will plot all spectra for planets simulated orbiting the Archean Sun.
+
+Multiple spectra can be plotted simultaneously by holding “command” (on a mac) or “control” (on a PC) while selecting items in the table. 
+
+If you encounter any issues operating the data visualization, try refreshing the page to restart the Spectral Explorer. 
+
+If you have any questions, comments, concerns, or improvement ideas please email Jake Lustig-Yaeger at jlustigy@uw.edu.

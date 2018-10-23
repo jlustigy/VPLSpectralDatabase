@@ -215,7 +215,8 @@ def set_nth(N, final_length=10000.):
     return nth
 
 def write_spectra_csv(spectra, savename="test.csv", lammin=0.1, lammax=20.0,
-                      degrade=False, Res=1000, nth=1, dynamic_nth=False, fn=10000):
+                      degrade=False, Res=1000, nth=1, dynamic_nth=False, fn=10000,
+                      add_molecule_points = True):
     """
     Write list of Spectrum objects to csv file
 
@@ -248,31 +249,75 @@ def write_spectra_csv(spectra, savename="test.csv", lammin=0.1, lammax=20.0,
 
     i = 1
     for s in spectra:
+
+        # A total hack to add the exact point where molecule bandcenters are
+        if add_molecule_points:
+            from make_molecular_csv import molecules
+            for mol in molecules:
+                for iband in range(len(mol.bandcenters)):
+                    if  (mol.bandcenters[iband] > s.data.wavelength.min())\
+                    and (mol.bandcenters[iband] < s.data.wavelength.max()):
+                        s.data.wavelength,\
+                        s.data.wavenumber,\
+                        s.data.toa_flux,\
+                        s.data.star_flux,\
+                        s.data.geo_albedo,\
+                        s.data.flux_transmission,\
+                        s.data.absorbing_radius,\
+                        s.data.tdepth\
+                        = insert_point(mol.bandcenters[iband],
+                        s.data.wavelength,
+                        s.data.wavenumber,
+                        s.data.toa_flux,
+                        s.data.star_flux,
+                        s.data.geo_albedo,
+                        s.data.flux_transmission,
+                        s.data.absorbing_radius,
+                        s.data.tdepth
+                        )
+
         # Select wavelength range
-        mask = (s.data.wavelength >= lammin) & (s.data.wavelength <= lammax)
+        wlmask = (s.data.wavelength >= lammin) & (s.data.wavelength <= lammax)
 
-        # Number of wavelength points
-        Nlam = np.sum(mask)
-
-        # Create meaningless
-        tmp = np.chararray(Nlam, itemsize=len(s.tag))
-        tmp2 = np.zeros(Nlam, dtype=int)
-        tmp[:] = s.tag
-        tmp2[:] = int(i)
+        # Number of wavelength points in bounds
+        Nlam = np.sum(wlmask)
 
         if dynamic_nth:
             nth = set_nth(Nlam, final_length=fn)
 
-        tag = np.hstack([tag,tmp[0::nth]])
-        wl = np.hstack([wl, s.data.wavelength[mask][0::nth]])
-        wn = np.hstack([wn, s.data.wavenumber[mask][0::nth]])
-        toaf = np.hstack([toaf, s.data.toa_flux[mask][0::nth]])
-        starf = np.hstack([starf, s.data.star_flux[mask][0::nth]])
-        galb = np.hstack([galb, s.data.geo_albedo[mask][0::nth]])
-        ftrn = np.hstack([ftrn, s.data.flux_transmission[mask][0::nth]])
-        absrad = np.hstack([absrad, s.data.absorbing_radius[mask][0::nth]])
-        tdepth = np.hstack([tdepth, s.data.tdepth[mask][0::nth]])
-        which = np.hstack([which, tmp2[0::nth]])
+        # Select every nth value
+        nthmask = np.array([False for _ in range(len(s.data.wavelength))])
+        nthmask[0::nth] = True
+
+        # Add back in molecular band points
+        if add_molecule_points:
+            for mol in molecules:
+                for iband in range(len(mol.bandcenters)):
+                    iok = np.argmin(np.fabs(s.data.wavelength - mol.bandcenters[iband]))
+                    nthmask[iok] = True
+
+        # Combine masks
+        mask = wlmask & nthmask
+
+        # Number of total points
+        Npoints = np.sum(mask)
+
+        # Create meaningless
+        tmp = np.chararray(Npoints, itemsize=len(s.tag))
+        tmp2 = np.zeros(Npoints, dtype=int)
+        tmp[:] = s.tag
+        tmp2[:] = int(i)
+
+        tag = np.hstack([tag,tmp])
+        wl = np.hstack([wl, s.data.wavelength[mask]])
+        wn = np.hstack([wn, s.data.wavenumber[mask]])
+        toaf = np.hstack([toaf, s.data.toa_flux[mask]])
+        starf = np.hstack([starf, s.data.star_flux[mask]])
+        galb = np.hstack([galb, s.data.geo_albedo[mask]])
+        ftrn = np.hstack([ftrn, s.data.flux_transmission[mask]])
+        absrad = np.hstack([absrad, s.data.absorbing_radius[mask]])
+        tdepth = np.hstack([tdepth, s.data.tdepth[mask]])
+        which = np.hstack([which, tmp2])
         i += 1
 
     which = np.array(which, dtype=int)
@@ -672,6 +717,51 @@ def convert_new_files(new_files_dir):
             convert_to_trn(tag)
 
     return
+
+def insert_point(addx, x, *args):
+    """
+    Insert ``addx`` into ``x`` and use linear interpolation to add a mid-value
+    to corresponding arrays passed via additional arguments
+    """
+
+    # Find closest point to addx
+    inear1 = np.argmin(np.fabs(x - addx))
+
+    # Determine if lower of higher point is closer to addx
+    pm = [-1, 1]
+    ipm = np.argmin(np.fabs(x[[inear1+pm[0],inear1+pm[1]]] - addx))
+    inear2 = inear1 + pm[ipm]
+
+    # Find upper/max index
+    index = np.max([inear1, inear2])
+
+    # Insert addx into x before index
+    xmod = np.insert(x, index, addx)
+
+    # Loop over argument arrays
+    rets = [xmod]
+    for y in args:
+
+        # Try to interpolate y to addx
+        try:
+            addy = np.interp(addx, x[[inear1, inear2]], y[[inear1, inear2]])
+        except TypeError:
+            # These aren't numbers, just add a point
+            addy = y[0]
+
+        try:
+            # Insert addy into y
+            ymod = np.insert(y, index, addy)
+        except:
+            import pdb; pdb.set_trace()
+
+        # Append new array to list
+        rets.append(ymod)
+
+    # Cast as tuple
+    rets = tuple(rets)
+
+    return rets
 
 ################
 # MOLECULES
